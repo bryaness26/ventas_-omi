@@ -40,6 +40,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['registrar_usuario']))
     }
 }
 
+// Procesar eliminación de usuario
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['eliminar_usuario_id'])) {
+    $id_eliminar = (int)$_POST['eliminar_usuario_id'];
+    
+    // Evitar que el usuario se elimine a sí mismo
+    if ($id_eliminar === (int)$_SESSION['user_id']) {
+        $error = 'No puedes eliminar tu propio usuario activo.';
+    } else {
+        try {
+            $stmt = $pdo->prepare("DELETE FROM usuarios WHERE id = :id");
+            $stmt->execute(['id' => $id_eliminar]);
+            $mensaje = 'Usuario eliminado correctamente.';
+        } catch (PDOException $e) {
+            $error = 'Error al eliminar el usuario: ' . $e->getMessage();
+        }
+    }
+}
+
 // Obtener lista de todos los usuarios
 try {
     $stmt = $pdo->query("SELECT id, nombre, usuario, rol, created_at FROM usuarios ORDER BY id DESC");
@@ -123,6 +141,7 @@ try {
                         <th>Usuario</th>
                         <th>Rol</th>
                         <th>Fecha Registro</th>
+                        <th style="text-align: right;">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -136,6 +155,23 @@ try {
                                 </span>
                             </td>
                             <td><?php echo date('d/m/Y', strtotime($usr['created_at'])); ?></td>
+                            <td style="text-align: right;">
+                                <div style="display: flex; gap: 8px; justify-content: flex-end;">
+                                    <a href="editar_usuario.php?id=<?php echo $usr['id']; ?>" class="btn-action btn-edit" title="Editar">
+                                        <i class="ph-bold ph-pencil-simple"></i>
+                                    </a>
+                                    <?php if ($usr['id'] != $_SESSION['user_id']): ?>
+                                    <form action="usuarios.php" method="POST" class="delete-form" style="margin: 0;">
+                                        <input type="hidden" name="eliminar_usuario_id" value="<?php echo $usr['id']; ?>">
+                                        <button type="submit" class="btn-action btn-delete" title="Eliminar">
+                                            <i class="ph-bold ph-trash"></i>
+                                        </button>
+                                    </form>
+                                    <?php else: ?>
+                                        <span style="opacity: 0.3; padding: 6px; display: inline-flex;" title="Tú"><i class="ph-bold ph-user-circle"></i></span>
+                                    <?php endif; ?>
+                                </div>
+                            </td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
