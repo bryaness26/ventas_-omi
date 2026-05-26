@@ -1,0 +1,4 @@
+# Ignorar archivos locales temporales y caché del sistema Ñomi
+config/bcv_cache.json
+.system_generated/
+*.log
