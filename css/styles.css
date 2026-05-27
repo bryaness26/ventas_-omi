@@ -24,6 +24,11 @@
     --font-body: 'Plus Jakarta Sans', sans-serif;
 }
 
+/* Evitar scroll horizontal en toda la página sin bloquear el scroll de tablas hijas */
+html {
+    overflow-x: hidden;
+}
+
 /* Reset general */
 * {
     margin: 0;
@@ -338,8 +343,7 @@ h1, h2, h3, h4, h5, h6 {
     margin-left: 280px;
     padding: 40px;
     transition: var(--transition);
-    overflow-x: hidden; /* Evitar desbordamiento horizontal del contenido */
-    min-width: 0;       /* Permite que flexbox/grid reduzca el contenido */
+    min-width: 0; /* Permite que flexbox/grid reduzca el contenido */
 }
 
 /* Header Móvil */
@@ -782,8 +786,6 @@ h1, h2, h3, h4, h5, h6 {
     .main-content {
         margin-left: 0;
         padding: 80px 14px 40px 14px;
-        /* Evitar que el contenido se desborde en horizontal */
-        overflow-x: hidden;
     }
 
     .mobile-header {
