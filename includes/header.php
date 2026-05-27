@@ -45,7 +45,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
                 <div class="user-name"><?php echo sanitize($_SESSION['user_nombre']); ?></div>
             </div>
 
-            <nav style="flex-grow: 1;">
+            <nav style="margin-bottom: 20px;">
                 <ul class="sidebar-nav">
                     <li class="<?php echo $current_page == 'dashboard.php' ? 'active' : ''; ?>">
                         <a href="dashboard.php">
