@@ -334,6 +334,8 @@ h1, h2, h3, h4, h5, h6 {
     margin-left: 280px;
     padding: 40px;
     transition: var(--transition);
+    overflow-x: hidden; /* Evitar desbordamiento horizontal del contenido */
+    min-width: 0;       /* Permite que flexbox/grid reduzca el contenido */
 }
 
 /* Header Móvil */
@@ -442,15 +444,13 @@ h1, h2, h3, h4, h5, h6 {
 
 .grid-form-table {
     display: grid;
-    grid-template-columns: minmax(360px, 1.2fr) 2fr;
+    grid-template-columns: minmax(340px, 1.2fr) 2fr;
     gap: 30px;
     align-items: start;
 }
 
-@media (max-width: 1100px) {
-    .grid-2col {
-        grid-template-columns: 1fr;
-    }
+@media (max-width: 1280px) {
+    .grid-2col,
     .grid-form-table {
         grid-template-columns: 1fr;
     }
