@@ -282,7 +282,7 @@ h1, h2, h3, h4, h5, h6 {
     display: flex;
     flex-direction: column;
     gap: 4px;
-    flex-grow: 1;
+    /* Sin flex-grow para que no empuje el widget BCV fuera de pantalla */
 }
 
 .sidebar-nav a {
@@ -306,8 +306,9 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .sidebar-footer {
-    margin-top: auto;
-    padding-top: 20px;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .sidebar-footer a {
