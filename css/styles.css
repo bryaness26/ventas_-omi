@@ -237,6 +237,7 @@ h1, h2, h3, h4, h5, h6 {
     gap: 12px;
     margin-bottom: 20px;
     padding: 0 10px;
+    flex-shrink: 0;
 }
 
 .sidebar-logo {
@@ -259,6 +260,7 @@ h1, h2, h3, h4, h5, h6 {
     border-radius: var(--border-radius);
     margin-bottom: 15px;
     border: 1px solid rgba(255, 255, 255, 0.08);
+    flex-shrink: 0;
 }
 
 .sidebar-user .user-role {
@@ -309,6 +311,7 @@ h1, h2, h3, h4, h5, h6 {
     margin-top: 15px;
     padding-top: 15px;
     border-top: 1px solid rgba(255, 255, 255, 0.08);
+    flex-shrink: 0;
 }
 
 .sidebar-footer a {
@@ -558,6 +561,7 @@ h1, h2, h3, h4, h5, h6 {
     box-shadow: 0 10px 25px rgba(216, 26, 103, 0.2);
     position: relative;
     overflow: hidden;
+    flex-shrink: 0; /* Evita que el widget se comprima en pantallas bajas */
 }
 
 .bcv-widget::after {
