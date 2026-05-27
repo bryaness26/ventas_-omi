@@ -4,22 +4,47 @@ document.addEventListener('DOMContentLoaded', function() {
     // --- 1. MENÚ RESPONSIVO MÓVIL ---
     const menuToggle = document.getElementById('menuToggle');
     const sidebar = document.getElementById('sidebar');
-    
+    const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+    function openSidebar() {
+        sidebar.classList.add('active');
+        if (sidebarOverlay) {
+            sidebarOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden'; // Evitar scroll del fondo
+        }
+    }
+
+    function closeSidebar() {
+        sidebar.classList.remove('active');
+        if (sidebarOverlay) {
+            sidebarOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+    }
+
     if (menuToggle && sidebar) {
         menuToggle.addEventListener('click', function(e) {
             e.stopPropagation();
-            sidebar.classList.toggle('active');
+            if (sidebar.classList.contains('active')) {
+                closeSidebar();
+            } else {
+                openSidebar();
+            }
         });
-        
-        // Cerrar menú al hacer click fuera del sidebar en móvil
-        document.addEventListener('click', function(e) {
-            if (window.innerWidth <= 768 && sidebar.classList.contains('active')) {
-                if (!sidebar.contains(e.target) && e.target !== menuToggle) {
-                    sidebar.classList.remove('active');
-                }
+
+        // Cerrar al hacer click en el overlay
+        if (sidebarOverlay) {
+            sidebarOverlay.addEventListener('click', closeSidebar);
+        }
+
+        // Cerrar si se redimensiona la ventana a escritorio
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > 768) {
+                closeSidebar();
             }
         });
     }
+
 
     // --- 2. CÁLCULO DINÁMICO DE VENTAS ---
     const productoSelect = document.getElementById('producto');

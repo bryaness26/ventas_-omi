@@ -1,7 +1,11 @@
         </main>
     </div>
 
+    <!-- Overlay oscuro del Sidebar en móvil -->
+    <div id="sidebarOverlay" class="sidebar-overlay"></div>
+
     <!-- Modal de Confirmación de Eliminación Premium -->
+
     <div id="deleteModal" class="modal-overlay">
         <div class="modal-box">
             <div class="modal-icon">
