@@ -117,9 +117,14 @@ $total_ventas_ves = $total_ventas * $tasa_bcv;
                                 <td><?php echo date('d/m/Y', strtotime($venta['fecha_venta'])); ?></td>
                                 <td><strong><?php echo sanitize($venta['cliente']); ?></strong></td>
                                 <td>
-                                    <span class="badge <?php echo $venta['producto'] == 'Pequeña' ? 'badge-small' : 'badge-large'; ?>">
-                                        <?php echo sanitize($venta['producto']); ?>
-                                    </span>
+                                    <?php if ($venta['producto'] === 'Mixta'): ?>
+                                        <span class="badge badge-small" style="margin-right: 4px;">P: <?php echo $venta['cant_pequena']; ?></span>
+                                        <span class="badge badge-large">G: <?php echo $venta['cant_grande']; ?></span>
+                                    <?php else: ?>
+                                        <span class="badge <?php echo $venta['producto'] == 'Pequeña' ? 'badge-small' : 'badge-large'; ?>">
+                                            <?php echo sanitize($venta['producto']); ?>
+                                        </span>
+                                    <?php endif; ?>
                                 </td>
                                 <td><?php echo $venta['cantidad']; ?></td>
                                 <td><strong>$<?php echo number_format($venta['monto_total'], 2, ',', '.'); ?></strong></td>

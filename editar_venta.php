@@ -28,20 +28,32 @@ if (isset($_GET['id'])) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['actualizar_venta']) && $venta) {
     $fecha_venta = sanitize($_POST['fecha_venta']);
     $cliente = sanitize($_POST['cliente']);
-    $producto = sanitize($_POST['producto']);
-    $cantidad = intval($_POST['cantidad']);
-    $monto_total = floatval($_POST['monto_total']);
+    $cant_pequena = intval($_POST['cant_pequena'] ?? 0);
+    $cant_grande = intval($_POST['cant_grande'] ?? 0);
     $metodo_pago = sanitize($_POST['metodo_pago']);
 
-    if (empty($fecha_venta) || empty($cliente) || empty($producto) || $cantidad <= 0 || $monto_total <= 0 || empty($metodo_pago)) {
-        $error = 'Por favor, complete todos los campos con valores válidos.';
+    if (empty($fecha_venta) || empty($cliente) || ($cant_pequena <= 0 && $cant_grande <= 0) || empty($metodo_pago)) {
+        $error = 'Por favor, complete todos los campos con valores válidos. Debe ingresar al menos una cantidad.';
     } else {
+        // Determinar producto y cantidad total
+        if ($cant_pequena > 0 && $cant_grande > 0) {
+            $producto = 'Mixta';
+        } elseif ($cant_pequena > 0) {
+            $producto = 'Pequeña';
+        } else {
+            $producto = 'Grande';
+        }
+        $cantidad = $cant_pequena + $cant_grande;
+        $monto_total = ($cant_pequena * 2.00) + ($cant_grande * 5.00);
+
         try {
             $stmt = $pdo->prepare("UPDATE ventas SET 
                                     fecha_venta = :fecha_venta, 
                                     cliente = :cliente, 
                                     producto = :producto, 
                                     cantidad = :cantidad, 
+                                    cant_pequena = :cant_pequena, 
+                                    cant_grande = :cant_grande, 
                                     monto_total = :monto_total, 
                                     metodo_pago = :metodo_pago 
                                    WHERE id = :id");
@@ -50,6 +62,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['actualizar_venta']) &
                 'cliente' => $cliente,
                 'producto' => $producto,
                 'cantidad' => $cantidad,
+                'cant_pequena' => $cant_pequena,
+                'cant_grande' => $cant_grande,
                 'monto_total' => $monto_total,
                 'metodo_pago' => $metodo_pago,
                 'id' => $venta['id']
@@ -116,16 +130,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['actualizar_venta']) &
 
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
                 <div class="form-group">
-                    <label for="producto">Presentación</label>
-                    <select name="producto" id="producto" class="form-control" required>
-                        <option value="Pequeña" <?php echo $venta['producto'] == 'Pequeña' ? 'selected' : ''; ?>>Pequeña ($2.00)</option>
-                        <option value="Grande" <?php echo $venta['producto'] == 'Grande' ? 'selected' : ''; ?>>Grande ($5.00)</option>
-                    </select>
+                    <label for="cant_pequena">Cant. Pequeña ($2.00)</label>
+                    <input type="number" name="cant_pequena" id="cant_pequena" class="form-control" min="0" value="<?php echo $venta['cant_pequena']; ?>" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="cantidad">Cantidad</label>
-                    <input type="number" name="cantidad" id="cantidad" class="form-control" min="1" value="<?php echo $venta['cantidad']; ?>" required>
+                    <label for="cant_grande">Cant. Grande ($5.00)</label>
+                    <input type="number" name="cant_grande" id="cant_grande" class="form-control" min="0" value="<?php echo $venta['cant_grande']; ?>" required>
                 </div>
             </div>
 

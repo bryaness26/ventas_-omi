@@ -17,7 +17,9 @@ CREATE TABLE IF NOT EXISTS `ventas` (
   `id` INT AUTO_INCREMENT PRIMARY KEY,
   `fecha_venta` DATE NOT NULL,
   `cliente` VARCHAR(100) NOT NULL,
-  `producto` VARCHAR(50) NOT NULL, -- "Pequeña" o "Grande"
+  `cant_pequena` INT NOT NULL DEFAULT 0,
+  `cant_grande` INT NOT NULL DEFAULT 0,
+  `producto` VARCHAR(50) NOT NULL, -- "Pequeña", "Grande" o "Mixta"
   `cantidad` INT NOT NULL,
   `monto_total` DECIMAL(10, 2) NOT NULL, -- Guardado en dólares ($)
   `metodo_pago` VARCHAR(50) NOT NULL, -- Pago Móvil, Efectivo, Transferencia

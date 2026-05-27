@@ -45,4 +45,19 @@ try {
         die("Error crítico de conexión a la base de datos: " . $ex->getMessage());
     }
 }
+
+// Migración automática para agregar cant_pequena y cant_grande a la tabla de ventas
+try {
+    $pdo->query("SELECT cant_pequena FROM ventas LIMIT 1");
+} catch (PDOException $e) {
+    try {
+        $pdo->exec("ALTER TABLE ventas ADD COLUMN cant_pequena INT NOT NULL DEFAULT 0 AFTER cliente");
+        $pdo->exec("ALTER TABLE ventas ADD COLUMN cant_grande INT NOT NULL DEFAULT 0 AFTER cant_pequena");
+        // Rellenar registros existentes
+        $pdo->exec("UPDATE ventas SET cant_pequena = cantidad WHERE producto = 'Pequeña'");
+        $pdo->exec("UPDATE ventas SET cant_grande = cantidad WHERE producto = 'Grande'");
+    } catch (PDOException $ex) {
+        // Silenciar error en caso de que ya existan o haya problemas
+    }
+}
 ?>

@@ -9,23 +9,35 @@ $error = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['registrar_venta'])) {
     $fecha_venta = sanitize($_POST['fecha_venta']);
     $cliente = sanitize($_POST['cliente']);
-    $producto = sanitize($_POST['producto']);
-    $cantidad = intval($_POST['cantidad']);
-    $monto_total = floatval($_POST['monto_total']);
+    $cant_pequena = intval($_POST['cant_pequena'] ?? 0);
+    $cant_grande = intval($_POST['cant_grande'] ?? 0);
     $metodo_pago = sanitize($_POST['metodo_pago']);
     $usuario_id = $_SESSION['user_id'];
 
-    if (empty($fecha_venta) || empty($cliente) || empty($producto) || $cantidad <= 0 || $monto_total <= 0 || empty($metodo_pago)) {
-        $error = 'Por favor, complete todos los campos con valores válidos.';
+    if (empty($fecha_venta) || empty($cliente) || ($cant_pequena <= 0 && $cant_grande <= 0) || empty($metodo_pago)) {
+        $error = 'Por favor, complete todos los campos con valores válidos. Debe ingresar al menos una cantidad.';
     } else {
+        // Determinar producto y cantidad total
+        if ($cant_pequena > 0 && $cant_grande > 0) {
+            $producto = 'Mixta';
+        } elseif ($cant_pequena > 0) {
+            $producto = 'Pequeña';
+        } else {
+            $producto = 'Grande';
+        }
+        $cantidad = $cant_pequena + $cant_grande;
+        $monto_total = ($cant_pequena * 2.00) + ($cant_grande * 5.00);
+
         try {
-            $stmt = $pdo->prepare("INSERT INTO ventas (fecha_venta, cliente, producto, cantidad, monto_total, metodo_pago, usuario_id) 
-                                   VALUES (:fecha_venta, :cliente, :producto, :cantidad, :monto_total, :metodo_pago, :usuario_id)");
+            $stmt = $pdo->prepare("INSERT INTO ventas (fecha_venta, cliente, producto, cantidad, cant_pequena, cant_grande, monto_total, metodo_pago, usuario_id) 
+                                   VALUES (:fecha_venta, :cliente, :producto, :cantidad, :cant_pequena, :cant_grande, :monto_total, :metodo_pago, :usuario_id)");
             $stmt->execute([
                 'fecha_venta' => $fecha_venta,
                 'cliente' => $cliente,
                 'producto' => $producto,
                 'cantidad' => $cantidad,
+                'cant_pequena' => $cant_pequena,
+                'cant_grande' => $cant_grande,
                 'monto_total' => $monto_total,
                 'metodo_pago' => $metodo_pago,
                 'usuario_id' => $usuario_id
@@ -104,17 +116,13 @@ try {
 
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
                 <div class="form-group">
-                    <label for="producto">Presentación</label>
-                    <select name="producto" id="producto" class="form-control" required>
-                        <option value="" disabled selected>Seleccione...</option>
-                        <option value="Pequeña">Pequeña ($2.00)</option>
-                        <option value="Grande">Grande ($5.00)</option>
-                    </select>
+                    <label for="cant_pequena">Cant. Pequeña ($2.00)</label>
+                    <input type="number" name="cant_pequena" id="cant_pequena" class="form-control" min="0" value="0" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="cantidad">Cantidad</label>
-                    <input type="number" name="cantidad" id="cantidad" class="form-control" min="1" value="1" required>
+                    <label for="cant_grande">Cant. Grande ($5.00)</label>
+                    <input type="number" name="cant_grande" id="cant_grande" class="form-control" min="0" value="0" required>
                 </div>
             </div>
 
@@ -172,9 +180,14 @@ try {
                                 <td><?php echo date('d/m/Y', strtotime($venta['fecha_venta'])); ?></td>
                                 <td><strong><?php echo sanitize($venta['cliente']); ?></strong></td>
                                 <td>
-                                    <span class="badge <?php echo $venta['producto'] == 'Pequeña' ? 'badge-small' : 'badge-large'; ?>">
-                                        <?php echo sanitize($venta['producto']); ?>
-                                    </span>
+                                    <?php if ($venta['producto'] === 'Mixta'): ?>
+                                        <span class="badge badge-small" style="margin-right: 4px;">P: <?php echo $venta['cant_pequena']; ?></span>
+                                        <span class="badge badge-large">G: <?php echo $venta['cant_grande']; ?></span>
+                                    <?php else: ?>
+                                        <span class="badge <?php echo $venta['producto'] == 'Pequeña' ? 'badge-small' : 'badge-large'; ?>">
+                                            <?php echo sanitize($venta['producto']); ?>
+                                        </span>
+                                    <?php endif; ?>
                                 </td>
                                 <td><?php echo $venta['cantidad']; ?></td>
                                 <td><strong>$<?php echo number_format($venta['monto_total'], 2, ',', '.'); ?></strong></td>

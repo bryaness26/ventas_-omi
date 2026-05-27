@@ -47,28 +47,21 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
     // --- 2. CÁLCULO DINÁMICO DE VENTAS ---
-    const productoSelect = document.getElementById('producto');
-    const cantidadInput = document.getElementById('cantidad');
+    const cantPequenaInput = document.getElementById('cant_pequena');
+    const cantGrandeInput = document.getElementById('cant_grande');
     const montoTotalInput = document.getElementById('monto_total');
     
-    if (productoSelect && cantidadInput && montoTotalInput) {
+    if (cantPequenaInput && cantGrandeInput && montoTotalInput) {
         function calcularTotalVenta() {
-            const producto = productoSelect.value;
-            const cantidad = parseInt(cantidadInput.value) || 0;
-            let precioUnitario = 0;
+            const cantPequena = parseInt(cantPequenaInput.value) || 0;
+            const cantGrande = parseInt(cantGrandeInput.value) || 0;
             
-            if (producto === 'Pequeña') {
-                precioUnitario = 2.00;
-            } else if (producto === 'Grande') {
-                precioUnitario = 5.00;
-            }
-            
-            const total = precioUnitario * cantidad;
+            const total = (cantPequena * 2.00) + (cantGrande * 5.00);
             montoTotalInput.value = total.toFixed(2);
         }
         
-        productoSelect.addEventListener('change', calcularTotalVenta);
-        cantidadInput.addEventListener('input', calcularTotalVenta);
+        cantPequenaInput.addEventListener('input', calcularTotalVenta);
+        cantGrandeInput.addEventListener('input', calcularTotalVenta);
     }
 
     // --- 3. CALCULADORA DE DIVISAS (BCV) ---
