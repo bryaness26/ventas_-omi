@@ -618,7 +618,10 @@ h1, h2, h3, h4, h5, h6 {
 /* --- RESPONSIVIDAD GENERAL --- */
 @media (max-width: 768px) {
     .sidebar {
-        left: -280px;
+        width: 290px;
+        max-width: 85vw;
+        left: -290px;
+        padding: 20px 12px;
     }
     
     .sidebar.active {
@@ -641,16 +644,17 @@ h1, h2, h3, h4, h5, h6 {
     }
     
     .panel-card {
-        padding: 20px 15px;
+        padding: 20px 12px;
         margin-bottom: 20px;
     }
     
     .login-card {
-        padding: 30px 20px;
+        padding: 35px 15px;
+        max-width: 95%;
     }
     
     .table-custom th, .table-custom td {
-        padding: 12px 10px;
+        padding: 12px 8px;
         font-size: 13px;
     }
     
@@ -662,7 +666,7 @@ h1, h2, h3, h4, h5, h6 {
     .panel-header {
         flex-direction: column;
         align-items: flex-start;
-        gap: 15px;
+        gap: 12px;
     }
     
     .panel-header .btn-primary {
@@ -670,7 +674,36 @@ h1, h2, h3, h4, h5, h6 {
         text-align: center;
         justify-content: center;
     }
+
+    /* Ajustes específicos de la calculadora */
+    .bcv-widget {
+        padding: 16px 12px;
+    }
+
+    .bcv-calc-inputs {
+        gap: 8px;
+    }
+
+    .bcv-calc-group input {
+        padding: 10px 10px 10px 30px;
+        font-size: 14px;
+    }
+
+    .bcv-calc-group::before {
+        left: 10px;
+        font-size: 13px;
+    }
+    
+    /* Escalar títulos del sistema para que no rompan líneas */
+    .main-content h2 {
+        font-size: 24px !important;
+    }
+    
+    .main-content p {
+        font-size: 14px !important;
+    }
 }
+
 
 /* --- MODAL DE CONFIRMACIÓN PERSONALIZADO --- */
 .modal-overlay {
