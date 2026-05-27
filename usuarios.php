@@ -91,7 +91,7 @@ try {
     </div>
 <?php endif; ?>
 
-<div class="grid-2col">
+<div class="grid-form-table">
     <!-- Formulario para agregar usuario -->
     <div class="panel-card">
         <h3 class="panel-title" style="margin-bottom: 24px;">Registrar Nuevo Usuario</h3>

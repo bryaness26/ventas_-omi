@@ -214,6 +214,21 @@ h1, h2, h3, h4, h5, h6 {
     z-index: 100;
     transition: var(--transition);
     box-shadow: 10px 0 30px rgba(57, 31, 0, 0.05);
+    overflow-y: auto; /* Permite scroll vertical en pantallas de baja altura */
+}
+
+.sidebar::-webkit-scrollbar {
+    width: 6px;
+}
+.sidebar::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.02);
+}
+.sidebar::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+}
+.sidebar::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.25);
 }
 
 .sidebar-brand {
@@ -292,6 +307,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .sidebar-footer {
     margin-top: auto;
+    padding-top: 20px;
 }
 
 .sidebar-footer a {
@@ -419,7 +435,14 @@ h1, h2, h3, h4, h5, h6 {
 /* --- DISEÑO DE TARJETAS / CONTENEDORES --- */
 .grid-2col {
     display: grid;
-    grid-template-columns: 2fr 1fr;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    align-items: start;
+}
+
+.grid-form-table {
+    display: grid;
+    grid-template-columns: minmax(320px, 1fr) 1.8fr;
     gap: 30px;
     align-items: start;
 }
@@ -428,7 +451,11 @@ h1, h2, h3, h4, h5, h6 {
     .grid-2col {
         grid-template-columns: 1fr;
     }
+    .grid-form-table {
+        grid-template-columns: 1fr;
+    }
 }
+
 
 .panel-card {
     background: var(--white);
