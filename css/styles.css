@@ -663,9 +663,9 @@ h1, h2, h3, h4, h5, h6 {
 
     /* Ocultar sidebar fuera de pantalla al cerrar */
     .sidebar {
-        width: 270px;
-        left: -270px;
-        padding: 18px 14px;
+        width: 260px;
+        left: -260px;
+        padding: 12px 12px;
         z-index: 200;
         transition: left 0.3s ease;
         overflow-y: auto;
@@ -680,6 +680,99 @@ h1, h2, h3, h4, h5, h6 {
     .sidebar-overlay {
         display: block;
     }
+
+    /* Logo más compacto en móvil */
+    .sidebar-brand {
+        margin-bottom: 10px;
+    }
+
+    .sidebar-logo {
+        width: 32px;
+    }
+
+    .sidebar-brand span {
+        font-size: 18px;
+    }
+
+    /* Tarjeta usuario compacta */
+    .sidebar-user {
+        padding: 8px 12px;
+        margin-bottom: 8px;
+    }
+
+    .sidebar-user .user-role {
+        font-size: 10px;
+    }
+
+    .sidebar-user .user-name {
+        font-size: 13px;
+    }
+
+    /* Links de navegación compactos */
+    .sidebar-nav {
+        gap: 2px;
+        margin-bottom: 8px;
+    }
+
+    .sidebar-nav a {
+        padding: 8px 12px;
+        font-size: 13px;
+        gap: 10px;
+    }
+
+    /* Widget BCV ultra compacto en móvil */
+    .bcv-widget {
+        padding: 10px 12px;
+        margin-top: 8px !important;
+        margin-bottom: 8px !important;
+        border-radius: 14px;
+    }
+
+    .bcv-header {
+        padding-bottom: 8px;
+        margin-bottom: 8px;
+    }
+
+    .bcv-header h4 {
+        font-size: 13px;
+    }
+
+    .bcv-rate {
+        font-size: 20px;
+        margin-bottom: 8px;
+    }
+
+    .bcv-calc-title {
+        font-size: 11px;
+        margin-bottom: 8px;
+    }
+
+    .bcv-calc-inputs {
+        gap: 6px;
+    }
+
+    .bcv-calc-group input {
+        padding: 8px 8px 8px 26px;
+        font-size: 13px;
+        border-radius: 10px;
+    }
+
+    .bcv-calc-group::before {
+        left: 9px;
+        font-size: 12px;
+    }
+
+    /* Footer sidebar compacto */
+    .sidebar-footer {
+        padding-top: 8px;
+    }
+
+    .sidebar-footer a {
+        padding: 8px 12px;
+        font-size: 13px;
+    }
+
+
 
     .main-content {
         margin-left: 0;
@@ -744,29 +837,7 @@ h1, h2, h3, h4, h5, h6 {
         justify-content: center;
     }
 
-    /* Calculadora BCV compacta */
-    .bcv-widget {
-        padding: 14px 12px;
-    }
 
-    .bcv-rate {
-        font-size: 22px;
-        margin-bottom: 12px;
-    }
-
-    .bcv-calc-inputs {
-        gap: 8px;
-    }
-
-    .bcv-calc-group input {
-        padding: 10px 10px 10px 28px;
-        font-size: 14px;
-    }
-
-    .bcv-calc-group::before {
-        left: 10px;
-        font-size: 12px;
-    }
 
     /* Títulos del contenido más pequeños en móvil */
     .main-content h2 {
